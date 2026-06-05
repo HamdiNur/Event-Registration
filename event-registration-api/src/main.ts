@@ -10,9 +10,13 @@ async function bootstrap() {
     transform: true,
   }));
 
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
+    credentials: true,
+  });
   
-  await app.listen(3000);
-  console.log('🚀 Application is running on: http://localhost:3000');
+  await app.listen(3001);
+  console.log('🚀 Application is running on: http://localhost:3001');
 }
 bootstrap();
