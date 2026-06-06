@@ -108,46 +108,65 @@ export default function AttendeeDashboard() {
         ) : (
           <div className="space-y-4">
             {registrations.map((reg) => (
-              <div key={reg.id} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {reg.event.title}
-                      </h3>
-                      <span className={`text-xs font-semibold px-2 py-1 rounded-full ${getStatusColor(reg.status)}`}>
-                        {reg.status}
-                      </span>
-                    </div>
-                    <div className="space-y-1 text-sm text-gray-600">
-                      <p>📅 {dayjs(reg.event.startDate).format('MMM D, YYYY • h:mm A')}</p>
-                      <p>📍 {reg.event.venue}, {reg.event.city}</p>
-                      <p>🏷️ {reg.event.category.name}</p>
-                      <p className="text-gray-400 text-xs">
-                        Registered {dayjs(reg.registeredAt).format('MMM D, YYYY')}
-                      </p>
-                    </div>
-                  </div>
+  <div key={reg.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div className="flex">
 
-                  <div className="flex flex-col gap-2 ml-4">
-                    <Link href={`/events/${reg.event.id}`}
-                      className="text-blue-600 text-sm hover:underline text-center">
-                      View Event
-                    </Link>
-                    {reg.status !== 'CANCELLED' && (
-                      <button
-                        onClick={() => handleCancel(reg.id)}
-                        className="text-red-500 text-sm hover:underline">
-                        Cancel
-                      </button>
-                    )}
-                    {reg.attendanceConfirmed && (
-                      <span className="text-green-600 text-xs font-medium">✓ Attended</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+      {/* Event Image */}
+      {reg.event.imageUrl ? (
+        <div className="w-36 flex-shrink-0">
+          <img
+            src={reg.event.imageUrl}
+            alt={reg.event.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      ) : (
+        <div className="w-36 flex-shrink-0 bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+          <span className="text-4xl">🎪</span>
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="flex-1 p-5 flex justify-between items-start">
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-2">
+            <h3 className="text-lg font-semibold text-gray-900">
+              {reg.event.title}
+            </h3>
+            <span className={`text-xs font-semibold px-2 py-1 rounded-full ${getStatusColor(reg.status)}`}>
+              {reg.status}
+            </span>
+          </div>
+          <div className="space-y-1 text-sm text-gray-600">
+            <p>📅 {dayjs(reg.event.startDate).format('MMM D, YYYY • h:mm A')}</p>
+            <p>📍 {reg.event.venue}, {reg.event.city}</p>
+            <p>🏷️ {reg.event.category.name}</p>
+            <p className="text-gray-400 text-xs">
+              Registered {dayjs(reg.registeredAt).format('MMM D, YYYY')}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2 ml-4">
+          <Link href={`/events/${reg.event.id}`}
+            className="text-blue-600 text-sm hover:underline text-center">
+            View Event
+          </Link>
+          {reg.status !== 'CANCELLED' && (
+            <button
+              onClick={() => handleCancel(reg.id)}
+              className="text-red-500 text-sm hover:underline">
+              Cancel
+            </button>
+          )}
+          {reg.attendanceConfirmed && (
+            <span className="text-green-600 text-xs font-medium">✓ Attended</span>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+))}
           </div>
         )}
       </div>
