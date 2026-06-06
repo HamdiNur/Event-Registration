@@ -96,13 +96,32 @@ export default function EventDetailPage() {
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
           {/* Header */}
           <div className="bg-blue-600 px-8 py-6">
-            <span className="bg-white text-blue-600 text-xs font-bold px-3 py-1 rounded-full uppercase">
-              {event.category.name}
-            </span>
-            <h1 className="text-3xl font-bold text-white mt-3">
-              {event.title}
-            </h1>
-            <p className="text-blue-100 mt-1">By {event.organizer.fullName}</p>
+          {/* Header - show image if available */}
+{event.imageUrl ? (
+  <div className="relative h-64 overflow-hidden">
+    <img
+      src={event.imageUrl}
+      alt={event.title}
+      className="w-full h-full object-cover"
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+    <div className="absolute bottom-0 left-0 px-8 py-6">
+      <span className="bg-white text-blue-600 text-xs font-bold px-3 py-1 rounded-full uppercase">
+        {event.category.name}
+      </span>
+      <h1 className="text-3xl font-bold text-white mt-3">{event.title}</h1>
+      <p className="text-gray-200 mt-1">By {event.organizer.fullName}</p>
+    </div>
+  </div>
+) : (
+  <div className="bg-blue-600 px-8 py-6">
+    <span className="bg-white text-blue-600 text-xs font-bold px-3 py-1 rounded-full uppercase">
+      {event.category.name}
+    </span>
+    <h1 className="text-3xl font-bold text-white mt-3">{event.title}</h1>
+    <p className="text-blue-100 mt-1">By {event.organizer.fullName}</p>
+  </div>
+)}
           </div>
 
           <div className="p-8">
