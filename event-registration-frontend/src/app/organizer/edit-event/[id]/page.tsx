@@ -6,7 +6,7 @@ import Navbar from '@/components/Navbar';
 import { useAuth } from '@/context/AuthContext';
 import api from '@/services/api';
 import dayjs from 'dayjs';
-
+import ImageUpload from '@/components/ImageUpload';
 export default function EditEventPage() {
   const { id } = useParams();
   const { user, isLoading: authLoading } = useAuth();
@@ -29,6 +29,8 @@ export default function EditEventPage() {
     price: '',
     categoryId: '',
     status: '',
+    imageUrl: '',   // ← add this
+
   });
 
   useEffect(() => {
@@ -63,6 +65,8 @@ export default function EditEventPage() {
         price: event.price?.toString() || '',
         categoryId: event.categoryId,
         status: event.status,
+        imageUrl: event.imageUrl || '',  // ← add this
+
       });
     } catch (err) {
       console.error(err);
@@ -90,6 +94,8 @@ export default function EditEventPage() {
         ...form,
         capacity: parseInt(form.capacity),
         price: form.isFree ? undefined : parseFloat(form.price),
+        imageUrl: form.imageUrl || undefined,
+
       });
       router.push('/organizer/dashboard');
     } catch (err: any) {
@@ -244,7 +250,14 @@ export default function EditEventPage() {
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </div>
           )}
-
+{/* Image Upload */}
+<div>
+  <h2 className="text-lg font-semibold text-gray-900 mb-4">Event Image</h2>
+  <ImageUpload
+    value={form.imageUrl}
+    onChange={(url) => setForm({ ...form, imageUrl: url })}
+  />
+</div>
           <button
             type="submit"
             disabled={isLoading}
