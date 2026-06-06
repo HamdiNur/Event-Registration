@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import { useAuth } from '@/context/AuthContext';
 import api from '@/services/api';
+import ImageUpload from '@/components/ImageUpload';
 
 export default function CreateEventPage() {
   const { user, isLoading: authLoading } = useAuth();
@@ -25,6 +26,7 @@ export default function CreateEventPage() {
     isFree: true,
     price: '',
     categoryId: '',
+    imageUrl: '',
   });
 
   useEffect(() => {
@@ -60,12 +62,15 @@ export default function CreateEventPage() {
     e.preventDefault();
     setError('');
     setIsLoading(true);
+   
     try {
-      await api.post('/events', {
-        ...form,
-        capacity: parseInt(form.capacity),
-        price: form.isFree ? undefined : parseFloat(form.price),
-      });
+    await api.post('/events', {
+      ...form,
+      capacity: parseInt(form.capacity),
+      price: form.isFree ? undefined : parseFloat(form.price),
+      imageUrl: form.imageUrl || undefined,
+    });
+
       router.push('/organizer/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to create event');
@@ -270,6 +275,14 @@ export default function CreateEventPage() {
               )}
             </div>
           </div>
+          {/* Image Upload */}
+<div>
+  <h2 className="text-lg font-semibold text-gray-900 mb-4">Event Image</h2>
+  <ImageUpload
+    value={form.imageUrl}
+    onChange={(url) => setForm({ ...form, imageUrl: url })}
+  />
+</div>
 
           <button
             type="submit"
