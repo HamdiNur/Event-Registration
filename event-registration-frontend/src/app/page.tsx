@@ -68,95 +68,101 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 text-white overflow-hidden">
-        {/* Background circles */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-5 rounded-full translate-y-1/2 -translate-x-1/2" />
+      <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&auto=format&fit=crop&q=80')`,
+          }}
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/60" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+        {/* Content */}
+        <div className="relative z-10 text-center px-4 w-full max-w-3xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block bg-white bg-opacity-20 text-white text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+            <span className="inline-block bg-white/20 backdrop-blur-sm text-white text-xs font-semibold px-4 py-1.5 rounded-full mb-5 border border-white/30 uppercase tracking-widest">
               🎉 Discover Events Near You
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
-              Find & Join Amazing
-              <span className="block text-blue-200">Events</span>
+            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+              Find & Join <span className="text-blue-300">Amazing Events</span>
             </h1>
-            <p className="text-blue-100 text-lg sm:text-xl mb-10 max-w-2xl mx-auto">
+            <p className="text-gray-300 text-base sm:text-lg mb-8 max-w-xl mx-auto">
               Connect with your community through conferences, workshops, cultural events and more.
             </p>
           </motion.div>
 
-          {/* Search Bar */}
+          {/* Search */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-2xl mx-auto"
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex items-center bg-white rounded-xl shadow-xl overflow-hidden max-w-xl mx-auto"
           >
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl">🔍</span>
-              <input
-                type="text"
-                value={filters.search}
-                onChange={(e) => handleFilterChange('search', e.target.value)}
-                placeholder="Search events by name or description..."
-                className="w-full pl-12 pr-6 py-4 rounded-2xl text-gray-900 focus:outline-none shadow-2xl text-base"
-              />
-            </div>
+            <span className="px-4 text-gray-400 text-lg">🔍</span>
+            <input
+              type="text"
+              value={filters.search}
+              onChange={(e) => handleFilterChange('search', e.target.value)}
+              placeholder="Search events..."
+              className="flex-1 py-3.5 text-gray-800 placeholder-gray-400 focus:outline-none text-sm"
+            />
+            <button className="bg-blue-600 text-white px-5 py-3.5 font-semibold hover:bg-blue-700 transition text-sm">
+              Search
+            </button>
           </motion.div>
 
           {/* Stats */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex justify-center gap-8 mt-10"
+            transition={{ delay: 0.4 }}
+            className="flex justify-center gap-10 mt-8"
           >
             {[
-              { label: 'Events', value: events.length },
+              { label: 'Live Events', value: events.length },
               { label: 'Categories', value: categories.length },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-3xl font-bold text-white">{stat.value}</div>
-                <div className="text-blue-200 text-sm">{stat.label}</div>
+                <div className="text-2xl font-bold text-white">{stat.value}</div>
+                <div className="text-gray-400 text-xs uppercase tracking-wide">{stat.label}</div>
               </div>
             ))}
           </motion.div>
         </div>
-      </div>
+      </section>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
 
         {/* Category Pills */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
           className="flex flex-wrap gap-2 mb-6"
         >
           <button
             onClick={() => handleFilterChange('categoryId', '')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+            className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wide transition ${
               !filters.categoryId
-                ? 'bg-blue-600 text-white shadow-md'
+                ? 'bg-blue-600 text-white shadow'
                 : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
             }`}
           >
-            All Events
+            All
           </button>
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => handleFilterChange('categoryId', cat.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wide transition ${
                 filters.categoryId === cat.id
-                  ? 'bg-blue-600 text-white shadow-md'
+                  ? 'bg-blue-600 text-white shadow'
                   : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
               }`}
             >
@@ -168,13 +174,13 @@ export default function HomePage() {
         {/* Filter Row */}
         <div className="flex flex-wrap items-center gap-3 mb-8">
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">📍</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">📍</span>
             <input
               type="text"
               value={filters.city}
               onChange={(e) => handleFilterChange('city', e.target.value)}
               placeholder="Filter by city..."
-              className="pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              className="pl-8 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700 w-44"
             />
           </div>
 
@@ -183,27 +189,27 @@ export default function HomePage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               onClick={clearFilters}
-              className="flex items-center gap-1 bg-red-50 text-red-600 px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-red-100 transition"
+              className="flex items-center gap-1 bg-red-50 text-red-500 px-3 py-2 rounded-lg text-xs font-semibold hover:bg-red-100 transition border border-red-100"
             >
-              ✕ Clear Filters
+              ✕ Clear
             </motion.button>
           )}
 
-          <span className="ml-auto text-gray-500 text-sm">
+          <span className="ml-auto text-gray-400 text-sm">
             {isLoading ? 'Loading...' : `${events.length} event${events.length !== 1 ? 's' : ''} found`}
           </span>
         </div>
 
         {/* Events Grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm">
-                <div className="h-3 bg-gray-200 animate-pulse" />
-                <div className="p-5 space-y-3">
-                  <div className="h-5 bg-gray-200 rounded animate-pulse" />
-                  <div className="h-4 bg-gray-100 rounded animate-pulse w-3/4" />
-                  <div className="h-4 bg-gray-100 rounded animate-pulse w-1/2" />
+              <div key={i} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+                <div className="h-40 bg-gray-200 animate-pulse" />
+                <div className="p-4 space-y-3">
+                  <div className="h-4 bg-gray-200 rounded animate-pulse" />
+                  <div className="h-3 bg-gray-100 rounded animate-pulse w-3/4" />
+                  <div className="h-3 bg-gray-100 rounded animate-pulse w-1/2" />
                 </div>
               </div>
             ))}
@@ -212,24 +218,24 @@ export default function HomePage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center py-24"
+            className="text-center py-20"
           >
-            <div className="text-7xl mb-6">🎪</div>
-            <h3 className="text-2xl font-bold text-gray-700 mb-2">No events found</h3>
-            <p className="text-gray-500 mb-6">Try adjusting your filters or search terms</p>
+            <div className="text-5xl mb-4">🎪</div>
+            <h3 className="text-xl font-bold text-gray-700 mb-2">No events found</h3>
+            <p className="text-gray-400 text-sm mb-6">Try adjusting your filters</p>
             {hasFilters && (
               <button
                 onClick={clearFilters}
-                className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition"
+                className="bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition text-sm font-semibold"
               >
-                Clear all filters
+                Clear filters
               </button>
             )}
           </motion.div>
         ) : (
           <motion.div
             layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
           >
             <AnimatePresence>
               {events.map((event: any, index: number) => (
