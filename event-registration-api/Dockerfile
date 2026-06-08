@@ -1,30 +1,19 @@
-# Build stage
-FROM node:20-alpine AS builder
+FROM node:20-alpine
+
+# Add OpenSSL for Prisma
+RUN apk add --no-cache openssl openssl-dev libc6-compat
 
 WORKDIR /app
 
 COPY package*.json ./
 COPY prisma ./prisma/
 
-RUN npm install
+RUN npm install --registry https://registry.npmjs.org/ --fetch-retry-mintimeout 20000 --fetch-retry-maxtimeout 120000
 
 COPY . .
 
 RUN npx prisma generate
 RUN npm run build
-
-# Production stage
-FROM node:20-alpine AS production
-
-WORKDIR /app
-
-COPY package*.json ./
-COPY prisma ./prisma/
-
-RUN npm install --omit=dev
-
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 EXPOSE 3001
 
