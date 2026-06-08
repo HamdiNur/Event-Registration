@@ -3,9 +3,15 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
-    domains: [
-      'images.unsplash.com',
-      'agmwsgijgyicowqovfzm.supabase.co',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'agmwsgijgyicowqovfzm.supabase.co',
+      },
     ],
   },
 };

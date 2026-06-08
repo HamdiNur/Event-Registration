@@ -1,10 +1,10 @@
-# Build stage
-FROM node:20-alpine AS builder
+FROM node:20-alpine
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+
+RUN npm install --registry https://registry.npmjs.org/ --fetch-retry-mintimeout 20000 --fetch-retry-maxtimeout 120000
 
 COPY . .
 
@@ -18,15 +18,6 @@ ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 RUN npm run build
 
-# Production stage
-FROM node:20-alpine AS production
-
-WORKDIR /app
-
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["node", ".next/standalone/server.js"]
