@@ -11,7 +11,10 @@ async function bootstrap() {
   }));
 
   app.enableCors({
-    origin: '*',
+    origin: [
+      'http://localhost:3000',
+      'https://event-registration-ivory.vercel.app',
+    ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
     credentials: true,
   });
